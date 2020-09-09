@@ -57,10 +57,10 @@ void CreateTask(void)
 {
     system("CLS");
     struct Task obj;
-    ofstream store_SR, store_TASKNAME, store_DATES;
+    ofstream store_SR, store_TASKNAME, store_DATES1, store_DATES2;
     long int i, size;
-    char Fname[30], Dname[100], temp[30];
-    string title, srfile, tasknamefile, datesfile;
+    char Fname[20], Dname[100], temp1[20], temp2[20], temp3[20], temp4[20];
+    string title, srfile, tasknamefile, datesfile1, datesfile2;
     char choice;
     title = "----- C R E A T E I N G     R E C O R D -----";
     cout << "\n\t\t\t ______________________________________________________";
@@ -71,14 +71,18 @@ void CreateTask(void)
     cin >> Fname;
     cout << "\n\n\t\tEnter How many Records You Want to Insert:: ";
     cin >> size;
-    temp = Fname;
-    srfile = strcat(temp, "_SR.dat");
-    temp = Fname;
-    tasknamefile = strcat(temp, "_TASKFILE.dat");
-    temp = Fname;
-    datesfile = strcat(temp, "_DATESFILE.dat");
+    strcpy(temp1, Fname);
+    srfile = strcat(temp1, "_SR.dat");
+    strcpy(temp2, Fname);
+    tasknamefile = strcat(temp2, "_TASKFILE.dat");
+    strcpy(temp3, Fname);
+    datesfile1 = strcat(temp3, "_DATESFILE1.dat");
+    strcpy(temp4, Fname);
+    datesfile2 = strcat(temp4, "_DATESFILE2.dat");
+
     store_TASKNAME.open(tasknamefile);
-    store_DATES.open(datesfile);
+    store_DATES1.open(datesfile1);
+    store_DATES2.open(datesfile2);
     store_SR.open(srfile);
     for (i = 1; i <= size; i++)
     {
@@ -95,21 +99,27 @@ void CreateTask(void)
         cout << "\n\n\t\tEnter End Date(DD MM YYYY) :: ";
         cin >> obj.End_Date;
         store_TASKNAME << "\n\t" << obj.Task_Name;
-        store_DATES << "\n\t" << obj.Start_Date << "\t\t\t" << obj.End_Date;
+        store_DATES1 << "\n"
+                     << obj.Start_Date;
+        store_DATES2 << "\n"
+                     << obj.End_Date;
         //Storing In file
     }
     store_SR.close();
     store_TASKNAME.close();
-    store_DATES.close();
+    store_DATES1.close();
+    store_DATES2.close();
     system("CLS");
     cout << "\n\nRecords Inserted Successfully\n";
 }
 void ViewTaskList(void)
 {
-    char Fname[20], temp[20];
-    ifstream show_SR, show_TASKNAME, show_DATES;
-    string title, srfile, tasknamefile, datesfile;
+    char Fname[20], temp1[20], temp2[20], temp3[20], temp4[20];
+    // char tasknamefile[30], datesfile[30], srfile[30];
+    ifstream show_SR, show_TASKNAME, show_DATES1, show_DATES2;
+    string title, sr, task, dates1, dates2;
     char ch1, ch2, ch3;
+
     system("CLS");
     title = "----- D I S P L A Y I N G     R E C O R D -----";
     cout << "\n\t\t\t ______________________________________________________";
@@ -118,34 +128,51 @@ void ViewTaskList(void)
     cout << "\n\t\t\t ______________________________________________________";
     cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
     cin >> Fname;
-    temp = Fname;
-    srfile = strcat(temp, "_SR.dat");
-    temp = Fname;
-    tasknamefile = strcat(temp, "_TASKFILE.dat");
-    temp = Fname;
-    datesfile = strcat(temp, "_DATESFILE.dat");
-    show_TASKNAME.open(tasknamefile);
-    show_DATES.open(datesfile);
-    show_SR.open(srfile);
-    ch1 = show_SR.get();
-    ch2 = show_TASKNAME.get();
-    ch3 = show_DATES.get();
+    // srfile = strcat(temp1, "_SR.dat");
+    // tasknamefile = strcat(temp2, "_TASKFILE.dat");
+    // datesfile = strcat(temp3, "_DATESFILE.dat");
+    strcpy(temp2, Fname);
+    show_TASKNAME.open((strcat(temp2, "_TASKFILE.dat")));
+    strcpy(temp3, Fname);
+    show_DATES1.open((strcat(temp3, "_DATESFILE1.dat")));
+    strcpy(temp4, Fname);
+    show_DATES2.open((strcat(temp4, "_DATESFILE2.dat")));
+    strcpy(temp1, Fname);
+    show_SR.open((strcat(temp1, "_SR.dat")));
     cout << "\n\t _____________________________________________________________________________________________________";
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|Sr.NO  ---                Task Name                         -- StartD ----          --- EndD____    |";
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|****************************************************************************************************|";
     cout << "\n";
-    while (!show_SR.eof() && !show_TASKNAME.eof() && !show_DATES.eof())
+    show_SR >> sr;
+    show_TASKNAME >> task;
+    show_DATES1 >> dates1;
+    show_DATES2 >> dates2;
+    // while (!show_TASKNAME.eof())
+    // {
+    //     cout << ch2;
+    //     printf("\t\t");
+    // }
+    // while (!show_DATES.eof())
+    // {
+    //     cout << ch3;
+    // }
+    for (int i = 1; i <= 3; i++)
     {
-        cout << ch1 << "\t\t" << ch2 << "\t\t\t" << ch3;
-        ch1 = show_SR.get();
-        ch2 = show_TASKNAME.get();
-        ch3 = show_DATES.get();
+        cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
+        show_SR >> sr;
+        show_TASKNAME >> task;
+        show_DATES1 >> dates1;
+        show_DATES2 >> dates2;
     }
+
+    cout << "\n\t|                                                                                                    |";
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|____________________________________________________________________________________________________|";
-    show_DATES.close();
+    show_DATES1.close();
+    show_DATES2.close();
+
     show_TASKNAME.close();
     show_SR.close();
 }
