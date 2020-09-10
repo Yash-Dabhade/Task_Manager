@@ -32,7 +32,7 @@ int welcome(void)
     cout << "\n\t\t\t|                                                      |";
     cout << "\n\t\t\t|   B-) VIEW TASK LIST                                 |";
     cout << "\n\t\t\t|                                                      |";
-    cout << "\n\t\t\t|   C-) ADD TASK                                       |";
+    cout << "\n\t\t\t|   C-) ADD TASK TO LIST                               |";
     cout << "\n\t\t\t|                                                      |";
     cout << "\n\t\t\t|   D-) DELETE TASK RECORD                             |";
     cout << "\n\t\t\t|                                                      |";
@@ -145,10 +145,11 @@ void ViewTaskList(void)
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|****************************************************************************************************|";
     cout << "\n";
-    show_SR >> sr;
+    int count = 0;
     show_TASKNAME >> task;
     show_DATES1 >> dates1;
     show_DATES2 >> dates2;
+    show_SR >> sr;
     // while (!show_TASKNAME.eof())
     // {
     //     cout << ch2;
@@ -158,7 +159,7 @@ void ViewTaskList(void)
     // {
     //     cout << ch3;
     // }
-    for (int i = 1; i <= 3; i++)
+    while (!show_SR.eof())
     {
         cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
         show_SR >> sr;
@@ -166,6 +167,7 @@ void ViewTaskList(void)
         show_DATES1 >> dates1;
         show_DATES2 >> dates2;
     }
+    cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
 
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|                                                                                                    |";
@@ -176,7 +178,91 @@ void ViewTaskList(void)
     show_TASKNAME.close();
     show_SR.close();
 }
+void AddTask(void)
+{
+    system("CLS");
+    struct Task obj;
+    ofstream store_SR, store_TASKNAME, store_DATES1, store_DATES2;
+    long int i, size;
+    char Fname[20], Dname[100], temp1[20], temp2[20], temp3[20], temp4[20];
+    string title, srfile, tasknamefile, datesfile1, datesfile2;
+    char choice;
+    title = "-----M O D E F Y  I N G     R E C O R D -----";
+    cout << "\n\t\t\t ______________________________________________________";
+    cout << "\n\n\t\t\t\t"
+         << " " << title;
+    cout << "\n\t\t\t ______________________________________________________";
+    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cin >> Fname;
+    cout << "\n\n\t\tEnter How many Records You Want to ADD: ";
+    cin >> size;
+    strcpy(temp1, Fname);
+    srfile = strcat(temp1, "_SR.dat");
+    strcpy(temp2, Fname);
+    tasknamefile = strcat(temp2, "_TASKFILE.dat");
+    strcpy(temp3, Fname);
+    datesfile1 = strcat(temp3, "_DATESFILE1.dat");
+    strcpy(temp4, Fname);
+    datesfile2 = strcat(temp4, "_DATESFILE2.dat");
 
+    store_TASKNAME.open(tasknamefile, ios::app);
+    store_DATES1.open(datesfile1, ios::app);
+    store_DATES2.open(datesfile2, ios::app);
+    store_SR.open(srfile, ios::app);
+    for (i = 1; i <= size; i++)
+    {
+        system("CLS");
+        obj.SR_NO = i + size + 1;
+        store_SR << "\n\t"
+                 << obj.SR_NO;
+        cout << "\n\n\t\tSR-NO -> " << i;
+        cout << "\n\n\t\t_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_";
+        cout << "\n\n\n\t\tEnter TaskName (Without Space use (_)) :: ";
+        scanf("%s", &obj.Task_Name);
+        cout << "\n\n\t\tEnter Start Date(DD MM YYYY) ::  ";
+        cin >> obj.Start_Date;
+        cout << "\n\n\t\tEnter End Date(DD MM YYYY) :: ";
+        cin >> obj.End_Date;
+        store_TASKNAME << "\n\t" << obj.Task_Name;
+        store_DATES1 << "\n"
+                     << obj.Start_Date;
+        store_DATES2 << "\n"
+                     << obj.End_Date;
+        //Storing In file
+    }
+    store_SR.close();
+    store_TASKNAME.close();
+    store_DATES1.close();
+    store_DATES2.close();
+    system("CLS");
+    cout << "\n\n\t\tRecords Added Successfully\n\t";
+}
+void DeleteTaskFile(void)
+{
+    system("CLS");
+    char Fname[20], Dname[100], temp1[20], temp2[20], temp3[20], temp4[20];
+    string title, srfile, tasknamefile, datesfile1, datesfile2;
+    char choice;
+    title = "----- D E L E T E I N G     R E C O R D -----";
+    cout << "\n\t\t\t ______________________________________________________";
+    cout << "\n\n\t\t\t\t"
+         << " " << title;
+    cout << "\n\t\t\t ______________________________________________________";
+    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cin >> Fname;
+    // cout << "\n\n\t\tEnter How many Records You Want to Insert:: ";
+    // cin >> size;
+    strcpy(temp1, Fname);
+    remove(strcat(temp1, "_SR.dat"));
+    strcpy(temp2, Fname);
+    remove(strcat(temp2, "_TASKFILE.dat"));
+    strcpy(temp3, Fname);
+    remove(strcat(temp3, "_DATESFILE1.dat"));
+    strcpy(temp4, Fname);
+    remove(strcat(temp4, "_DATESFILE2.dat"));
+    // datesfile2 = strcat(temp4, "_DATESFILE2.dat");
+    cout << "\n\n\t\tFiles Deleted Successfully !!!";
+}
 int main()
 {
     system("color 02");
@@ -196,11 +282,11 @@ int main()
             break;
 
         case 103:
-            /* code */
+            AddTask();
             break;
 
         case 104:
-            /* code */
+            DeleteTaskFile();
             break;
 
         case 105:
