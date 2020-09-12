@@ -67,7 +67,7 @@ void CreateTask(void)
     cout << "\n\n\t\t\t\t"
          << " " << title;
     cout << "\n\t\t\t ______________________________________________________";
-    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cout << "\n\n\t\tEnter Record Name :: ";
     cin >> Fname;
     cout << "\n\n\t\tEnter How many Records You Want to Insert:: ";
     cin >> size;
@@ -126,7 +126,7 @@ void ViewTaskList(void)
     cout << "\n\n\t\t\t\t"
          << " " << title;
     cout << "\n\t\t\t ______________________________________________________";
-    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cout << "\n\n\t\tEnter Record Name  :: ";
     cin >> Fname;
     // srfile = strcat(temp1, "_SR.dat");
     // tasknamefile = strcat(temp2, "_TASKFILE.dat");
@@ -182,18 +182,33 @@ void AddTask(void)
 {
     system("CLS");
     struct Task obj;
+    ifstream show_SR;
     ofstream store_SR, store_TASKNAME, store_DATES1, store_DATES2;
     long int i, size;
-    char Fname[20], Dname[100], temp1[20], temp2[20], temp3[20], temp4[20];
+    char Fname[20], Dname[100], temp1[20], temp2[20], temp3[20], temp4[20], temp5[20];
     string title, srfile, tasknamefile, datesfile1, datesfile2;
+    int count = 0;
     char choice;
     title = "-----M O D E F Y  I N G     R E C O R D -----";
     cout << "\n\t\t\t ______________________________________________________";
     cout << "\n\n\t\t\t\t"
          << " " << title;
     cout << "\n\t\t\t ______________________________________________________";
-    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cout << "\n\n\t\tEnter Record Name  :: ";
     cin >> Fname;
+    string SR1;
+    strcpy(temp5, Fname);
+    srfile = strcat(temp1, "_SR.dat");
+    show_SR.open(srfile);
+    show_SR >> SR1;
+    while (show_SR.eof())
+    {
+        cout << SR1;
+        system("CLS");
+        count++;
+    }
+    cout << count;
+    show_SR.close();
     cout << "\n\n\t\tEnter How many Records You Want to ADD: ";
     cin >> size;
     strcpy(temp1, Fname);
@@ -212,7 +227,7 @@ void AddTask(void)
     for (i = 1; i <= size; i++)
     {
         system("CLS");
-        obj.SR_NO = i + size + 1;
+        obj.SR_NO = count + i;
         store_SR << "\n\t"
                  << obj.SR_NO;
         cout << "\n\n\t\tSR-NO -> " << i;
@@ -248,7 +263,7 @@ void DeleteTaskFile(void)
     cout << "\n\n\t\t\t\t"
          << " " << title;
     cout << "\n\t\t\t ______________________________________________________";
-    cout << "\n\n\t\tEnter Record Name (Without Space with Extension .dat) :: ";
+    cout << "\n\n\t\tEnter Record Name  :: ";
     cin >> Fname;
     // cout << "\n\n\t\tEnter How many Records You Want to Insert:: ";
     // cin >> size;
@@ -299,18 +314,4 @@ int main()
         }
         system("PAUSE");
     }
-    // char ch;
-    // store.open("Data.dat");
-    // store << "Hello World\n";
-    // store.close();
-    // show.open("Data.dat");
-    // ch = show.get();
-    // while (!show.eof())
-    // {
-    //     cout << ch;
-    //     ch = show.get();
-    // }
-    // show.close();
-    // cout << "\nAfter append !\n";
-    // store.open("Data.dat", ios::app);
 }
