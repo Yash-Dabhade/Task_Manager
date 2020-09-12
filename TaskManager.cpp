@@ -6,6 +6,9 @@
 #include <string.h>
 #include <iomanip>
 using namespace std;
+const char separator = ' ';
+const int nameWitdth = 6;
+const int numWitdh = 8;
 template <typename T>
 void printElement(T t, const int &width)
 {
@@ -19,7 +22,6 @@ struct Task
     char End_Date[20];
     char Status[20];
 };
-
 int welcome(void)
 {
     string title;
@@ -167,6 +169,7 @@ void ViewTaskList(void)
     // }
     while (!show_SR.eof())
     {
+        // cout << left << setw(nameWitdth) << setfill(separator) << sr;
         cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
         show_SR >> sr;
         show_TASKNAME >> task;
