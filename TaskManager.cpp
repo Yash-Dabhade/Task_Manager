@@ -4,7 +4,13 @@
 #include <limits.h>
 #include <fstream>
 #include <string.h>
+#include <iomanip>
 using namespace std;
+template <typename T>
+void printElement(T t, const int &width)
+{
+    cout << left << setw(width) << setfill(separator) << t;
+}
 struct Task
 {
     int SR_NO;
