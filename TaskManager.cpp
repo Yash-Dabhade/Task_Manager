@@ -95,10 +95,11 @@ void CreateTask(void)
     for (i = 1; i <= size; i++)
     {
         system("CLS");
-        obj.SR_NO = i;
+        cout << "\n\n\t\tEnter Sr-No ::";
+        cin >> obj.SR_NO;
         store_SR << "\n\t"
                  << obj.SR_NO;
-        cout << "\n\n\t\tSR-NO -> " << i;
+        cout << "\n\n\t\tSR-NO -> " << obj.SR_NO;
         cout << "\n\n\t\t_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_";
         cout << "\n\n\n\t\tEnter TaskName (Without Space use (_)) :: ";
         scanf("%s", &obj.Task_Name);
@@ -149,10 +150,9 @@ void ViewTaskList(void)
     show_SR.open((strcat(temp1, "_SR.dat")));
     cout << "\n\t _____________________________________________________________________________________________________";
     cout << "\n\t|                                                                                                    |";
-    cout << "\n\t|Sr.NO  ---                Task Name                         -- StartD ----          --- EndD____    |";
+    cout << "\n\t|-----Sr.NO  ---        ---------Task Name------------        --- StartD ----          --EndD--      |";
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|****************************************************************************************************|";
-    cout << "\n";
     int count = 0;
     show_TASKNAME >> task;
     show_DATES1 >> dates1;
@@ -170,13 +170,15 @@ void ViewTaskList(void)
     while (!show_SR.eof())
     {
         // cout << left << setw(nameWitdth) << setfill(separator) << sr;
-        cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
+        // cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
+        cout << "\n\t|" << setw(05) << sr << setw(40) << task << setw(25) << dates1 << setw(20) << dates2 << setw(11) << "|";
         show_SR >> sr;
         show_TASKNAME >> task;
         show_DATES1 >> dates1;
         show_DATES2 >> dates2;
     }
-    cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
+    // cout << "\n\t\t" << sr << "\t\t" << task << "\t\t" << dates1 << "\t\t" << dates2;
+    cout << "\n\t|" << setw(05) << sr << setw(40) << task << setw(25) << dates1 << setw(20) << dates2 << setw(11) << "|";
 
     cout << "\n\t|                                                                                                    |";
     cout << "\n\t|                                                                                                    |";
@@ -235,11 +237,13 @@ void AddTask(void)
     store_SR.open(srfile, ios::app);
     for (i = 1; i <= size; i++)
     {
+        static int j = 1;
         system("CLS");
-        obj.SR_NO = count + i;
+        cout << "\n\n\t\tEnter Sr-No ::";
+        cin >> obj.SR_NO;
         store_SR << "\n\t"
                  << obj.SR_NO;
-        cout << "\n\n\t\tSR-NO -> " << i;
+        cout << "\n\n\t\tSR-NO -> " << obj.SR_NO;
         cout << "\n\n\t\t_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_";
         cout << "\n\n\n\t\tEnter TaskName (Without Space use (_)) :: ";
         scanf("%s", &obj.Task_Name);
@@ -321,6 +325,7 @@ int main()
             cout << "\n\nInvalid Choice :: ";
             break;
         }
+        cout << "\n\n";
         system("PAUSE");
     }
 }
